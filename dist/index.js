@@ -10,7 +10,7 @@ let animationFrameId;
 let gameRunning = false;
 const grid = document.getElementById('grid');
 const divCells = [];
-const cells = getCells(SIZE_X * SIZE_Y);
+let cells = getCells(SIZE_X * SIZE_Y);
 fillGrid();
 draw();
 setStyles();
@@ -37,6 +37,7 @@ function draw() {
     });
 }
 function logic() {
+    const newCells = [];
     for (let i = 0; i < SIZE_X; i++) {
         for (let j = 0; j < SIZE_Y; j++) {
             const neighbours = [];
@@ -56,11 +57,14 @@ function logic() {
             const neighbourSum = neighbours.reduce((a, b) => a + b, 0);
             // Decides whether a cell should live or die
             if (neighbourSum === 3)
-                cells[index] = 1;
+                newCells[index] = 1;
             else if (neighbourSum < 2 || neighbourSum > 3)
-                cells[index] = 0;
+                newCells[index] = 0;
+            else
+                newCells[index] = cells[index];
         }
     }
+    cells = newCells;
 }
 function pushIfDefined(arr, value) {
     if (typeof value !== 'undefined')
@@ -85,6 +89,13 @@ document.addEventListener('keydown', function ({ code }) {
     else
         animationFrameId = window.requestAnimationFrame(game);
     gameRunning = !gameRunning;
+});
+// Steps ahead one frame when pressed N
+document.addEventListener('keydown', function ({ code }) {
+    if (code !== 'KeyN')
+        return;
+    logic();
+    draw();
 });
 // Revert the value of a cell on click
 grid.addEventListener('click', function ({ target }) {

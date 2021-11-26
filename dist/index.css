@@ -18,9 +18,16 @@ body {
 #grid {
   display: grid;
 }
-
 .white {
   background-color: white;
+}
+
+.debug1 {
+  background-color: green;
+}
+
+.debug2 {
+  background-color: darkmagenta;
 }
 
 .black {

@@ -10,7 +10,7 @@ let gameRunning: boolean = false;
 
 const grid = document.getElementById('grid')!;
 const divCells: HTMLDivElement[] = [];
-const cells = getCells(SIZE_X * SIZE_Y);
+let cells = getCells(SIZE_X * SIZE_Y);
 
 fillGrid();
 draw();
@@ -43,6 +43,8 @@ function draw() {
 }
 
 function logic() {
+  const newCells: (0 | 1)[] = [];
+
   for (let i = 0; i < SIZE_X; i++) {
     for (let j = 0; j < SIZE_Y; j++) {
       const neighbours: (0 | 1)[] = [];
@@ -58,14 +60,16 @@ function logic() {
         if (m === 0) continue;
         pushIfDefined(neighbours, cells[index + m]);
       }
-
       const neighbourSum = neighbours.reduce<number>((a, b) => a + b, 0);
 
       // Decides whether a cell should live or die
-      if (neighbourSum === 3) cells[index] = 1;
-      else if (neighbourSum < 2 || neighbourSum > 3) cells[index] = 0;
+      if (neighbourSum === 3) newCells[index] = 1;
+      else if (neighbourSum < 2 || neighbourSum > 3) newCells[index] = 0;
+      else newCells[index] = cells[index];
     }
   }
+
+  cells = newCells;
 }
 
 function pushIfDefined(arr: any[], value: any) {
@@ -94,6 +98,14 @@ document.addEventListener('keydown', function ({ code }: KeyboardEvent) {
   else animationFrameId = window.requestAnimationFrame(game);
 
   gameRunning = !gameRunning;
+});
+
+// Steps ahead one frame when pressed N
+document.addEventListener('keydown', function ({ code }: KeyboardEvent) {
+  if (code !== 'KeyN') return;
+
+  logic();
+  draw();
 });
 
 // Revert the value of a cell on click
