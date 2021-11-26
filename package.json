@@ -1,0 +1,12 @@
+{
+  "name": "snake_gol",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build:dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.2"
+  }
+}

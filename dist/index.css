@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: darkcyan;
+
+  min-width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#grid {
+  display: grid;
+}
+
+.white {
+  background-color: white;
+}
+
+.black {
+  background-color: black;
+}
